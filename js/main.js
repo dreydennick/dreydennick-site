@@ -18,7 +18,10 @@
     revealed.forEach(function (el) { el.classList.add('is-in'); });
   }
 
-  if (!fine || noMotion) return; /* touch / reduced motion: native cursor, no lens */
+  if (!fine || noMotion) return; /* touch / reduced motion: native cursor stays */
+  try {
+    document.documentElement.classList.add('has-cursor'); /* hide native only when custom is live */
+  } catch (e) { return; }
 
   /* ---------- cursor with inertia ---------- */
   var ring = document.querySelector('.cursor');
@@ -35,7 +38,10 @@
     dot.style.transform  = 'translate(' + (mx - 3.5) + 'px,' + (my - 3.5) + 'px)';
     ring.style.transform = 'translate(' + (rx - ring.offsetWidth / 2) + 'px,' + (ry - ring.offsetHeight / 2) + 'px)';
     requestAnimationFrame(loop);
-  })();
+    window.addEventListener('error', function () {
+    document.documentElement.classList.remove('has-cursor'); /* any JS failure: bring native cursor back */
+  });
+})();
 
   /* ---------- lens over work rows ---------- */
   var loadedPreviews = {};
@@ -68,4 +74,7 @@
     el.style.transition = 'transform .3s cubic-bezier(.22,.61,.2,1)';
   });
 
+  window.addEventListener('error', function () {
+    document.documentElement.classList.remove('has-cursor'); /* any JS failure: bring native cursor back */
+  });
 })();
