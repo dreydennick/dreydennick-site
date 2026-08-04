@@ -31,8 +31,8 @@
       });
       im.style.cursor = 'zoom-in';
     });
-    lb.addEventListener('click', function (e) {
-      if (e.target !== lbImg) lb.classList.remove('is-open');
+    lb.addEventListener('click', function () {
+      lb.classList.remove('is-open');
     });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') lb.classList.remove('is-open');
