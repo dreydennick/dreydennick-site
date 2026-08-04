@@ -87,8 +87,8 @@ img{display:block;max-width:100%}
 @keyframes pulse{50%{opacity:.35}}
 
 .hero__logos{display:flex;flex-wrap:wrap;align-items:center;gap:20px 32px;margin-top:4.5vh}
-.hero__logos img{height:clamp(13px,1.6vw,21px);width:auto;opacity:.42;transition:opacity .35s var(--ease)}
-.hero__logos img:hover{opacity:.85}
+.hero__logos img{height:clamp(24px,3.1vw,42px);width:auto;opacity:.8;transition:opacity .35s var(--ease)}
+.hero__logos img:hover{opacity:1}
 
 /* -------- section head -------- */
 .section-head{display:flex;justify-content:space-between;align-items:baseline;padding:0 var(--pad);margin-bottom:34px}
@@ -239,9 +239,7 @@ img{display:block;max-width:100%}
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .reveal.is-in{opacity:1;transform:none}
 
-@media (hover:hover) and (pointer:fine){
-  body, a, button, .row{cursor:none}
-}
+html.has-cursor body, html.has-cursor a, html.has-cursor button, html.has-cursor .row{cursor:none}
 
 /* -------- cursor + lens (signature, desktop only) -------- */
 .cursor-dot,.cursor{position:fixed;top:0;left:0;pointer-events:none;z-index:100}
@@ -251,8 +249,8 @@ img{display:block;max-width:100%}
   transform:translate(-50%,-50%);
 }
 .cursor{
-  width:34px;height:34px;border-radius:50%;
-  border:1px solid var(--gold);
+  width:36px;height:36px;border-radius:50%;
+  border:1.5px solid var(--gold);
   transform:translate(-50%,-50%);
   transition:width .45s var(--ease),height .45s var(--ease),border-color .3s;
   overflow:hidden;
@@ -292,6 +290,7 @@ img{display:block;max-width:100%}
 /* -------- reduced motion -------- */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
+  body,a,button,.row{cursor:auto!important}
   .line__inner{transform:none}
   .reveal{opacity:1;transform:none}
   .cursor,.cursor-dot{display:none}
