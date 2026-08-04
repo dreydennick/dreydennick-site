@@ -199,7 +199,8 @@ a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 .contact__mail:hover{color:var(--gold)}
 .contact__meta,.contact__social{display:flex;gap:32px;flex-wrap:wrap;margin-bottom:18px}
 .contact__social a:hover,.contact__meta a:hover{color:var(--paper)}
-.contact__copy{margin-top:8vh;opacity:.6}
+.atelier-mark{height:clamp(54px,7vw,84px);width:auto;margin-top:8vh;opacity:.78;display:block}
+.contact__copy{margin-top:3vh;opacity:.6}
 
 /* -------- case pages -------- */
 .case__hero{padding:140px var(--pad) 0}
