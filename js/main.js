@@ -18,23 +18,18 @@
     revealed.forEach(function (el) { el.classList.add('is-in'); });
   }
 
-  if (!fine || noMotion) return; /* touch / reduced motion: native cursor stays */
-  try {
-    document.documentElement.classList.add('has-cursor'); /* hide native only when custom is live */
-  } catch (e) { return; }
-
-  /* ---------- lightbox ---------- */
+  /* ---------- lightbox (all devices) ---------- */
   var lb = document.getElementById('lightbox');
   if (lb) {
     var lbImg = lb.querySelector('img');
     var lbCap = lb.querySelector('.lightbox__cap');
     document.querySelectorAll('.case__gallery img, .case__figure img, .case__img img').forEach(function (im) {
       im.addEventListener('click', function () {
-        lbImg.src = im.src;
+        lbImg.src = im.currentSrc || im.src;
         lbCap.textContent = im.alt || '';
         lb.classList.add('is-open');
       });
-      im.style.cursor = 'pointer';
+      im.style.cursor = 'zoom-in';
     });
     lb.addEventListener('click', function (e) {
       if (e.target !== lbImg) lb.classList.remove('is-open');
@@ -43,6 +38,11 @@
       if (e.key === 'Escape') lb.classList.remove('is-open');
     });
   }
+
+  if (!fine || noMotion) return; /* touch / reduced motion: native cursor stays */
+  try {
+    document.documentElement.classList.add('has-cursor'); /* hide native only when custom is live */
+  } catch (e) { return; }
 
   /* ---------- cursor with inertia ---------- */
   var ring = document.querySelector('.cursor');
