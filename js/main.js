@@ -23,6 +23,27 @@
     document.documentElement.classList.add('has-cursor'); /* hide native only when custom is live */
   } catch (e) { return; }
 
+  /* ---------- lightbox ---------- */
+  var lb = document.getElementById('lightbox');
+  if (lb) {
+    var lbImg = lb.querySelector('img');
+    var lbCap = lb.querySelector('.lightbox__cap');
+    document.querySelectorAll('.case__gallery img, .case__figure img, .case__img img').forEach(function (im) {
+      im.addEventListener('click', function () {
+        lbImg.src = im.src;
+        lbCap.textContent = im.alt || '';
+        lb.classList.add('is-open');
+      });
+      im.style.cursor = 'pointer';
+    });
+    lb.addEventListener('click', function (e) {
+      if (e.target !== lbImg) lb.classList.remove('is-open');
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') lb.classList.remove('is-open');
+    });
+  }
+
   /* ---------- cursor with inertia ---------- */
   var ring = document.querySelector('.cursor');
   var lens = document.querySelector('.cursor__lens');
