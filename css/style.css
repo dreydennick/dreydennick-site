@@ -58,6 +58,7 @@ a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 @media (max-width:640px){.top__hist{display:none}}
 .top__nav{display:flex;gap:28px}
 .top__nav a{color:var(--paper);opacity:.75;transition:opacity .3s}
+.top__lang{color:var(--gold)!important;opacity:.9!important;font-weight:500}
 .top__nav a:hover{opacity:1}
 
 /* -------- hero -------- */
@@ -332,3 +333,14 @@ html.has-cursor body, html.has-cursor a, html.has-cursor button, html.has-cursor
   .cursor,.cursor-dot{display:none}
   html{scroll-behavior:auto}
 }
+
+
+/* -------- RTL (Hebrew) -------- */
+html[dir="rtl"] body{font-family:'Archivo','Heebo',system-ui,sans-serif}
+html[dir="rtl"] .mono{letter-spacing:.02em}
+html[dir="rtl"] .row__venue{text-align:left}
+html[dir="rtl"] .row:hover .row__title{transform:translateX(-12px)}
+html[dir="rtl"] .hero__rule{transform-origin:right}
+html[dir="rtl"] .side-mark{left:auto;right:14px}
+html[dir="rtl"] .case__body p,html[dir="rtl"] .case__body li,html[dir="rtl"] .about__body p,html[dir="rtl"] .hero__slogan,html[dir="rtl"] .vision__note{font-size:clamp(16px,1.25vw,18px);line-height:1.7}
+html[dir="rtl"] .hero__title,html[dir="rtl"] .case__title,html[dir="rtl"] .row__title,html[dir="rtl"] .contact__mail{direction:ltr}
