@@ -36,7 +36,15 @@ img{display:block;max-width:100%}
   transform:rotate(180deg) translateY(50%);writing-mode:vertical-rl;
   letter-spacing:.32em;font-size:10px;opacity:.28;pointer-events:none}
 @media (max-width:900px){.side-mark{display:none}}
-a:visited{color:inherit}
+a,a:link,a:visited,a:active{text-decoration:none!important}
+a:visited{color:#EBE8E2}
+.top__nav a:link,.top__nav a:visited{color:#EBE8E2}
+.top__lang:link,.top__lang:visited{color:#B99856!important}
+.contact__meta a:link,.contact__meta a:visited,.contact__social a:link,.contact__social a:visited{color:#77736C}
+.contact__meta a:hover,.contact__social a:hover{color:#EBE8E2}
+.contact__mail:link,.contact__mail:visited{color:#EBE8E2}
+.contact__mail:hover{color:#B99856}
+.case__nav a:link,.case__nav a:visited{color:#EBE8E2}
 a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 
 /* -------- fixed header -------- */
