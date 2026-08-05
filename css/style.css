@@ -50,6 +50,12 @@ a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
   border-bottom:1px solid rgba(235,232,226,.06);
 }
 .top__mark{color:var(--paper);font-weight:500}
+.top__left{display:flex;align-items:center;gap:16px}
+.top__logo img{height:clamp(22px,2.6vw,30px);width:auto;display:block;opacity:.92}
+.top__hist{display:flex;gap:6px}
+.top__hist button{background:none;border:1px solid var(--hair);color:var(--paper);opacity:.7;cursor:pointer;font:inherit;padding:3px 10px;transition:opacity .3s,border-color .3s}
+.top__hist button:hover{opacity:1;border-color:var(--gold)}
+@media (max-width:640px){.top__hist{display:none}}
 .top__nav{display:flex;gap:28px}
 .top__nav a{color:var(--paper);opacity:.75;transition:opacity .3s}
 .top__nav a:hover{opacity:1}
