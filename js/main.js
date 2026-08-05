@@ -53,6 +53,42 @@
 
   document.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; });
 
+
+  /* ---------- golden trail (mesmeric ribbon) ---------- */
+  var tc = document.createElement('canvas');
+  tc.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:95';
+  document.body.appendChild(tc);
+  var tctx = tc.getContext('2d');
+  function sizeTrail(){ tc.width = innerWidth * devicePixelRatio; tc.height = innerHeight * devicePixelRatio; tctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0); }
+  sizeTrail(); addEventListener('resize', sizeTrail);
+  var pts = [];
+  for (var i = 0; i < 26; i++) pts.push({x: mx, y: my});
+
+  function drawTrail(){
+    pts[0].x += (mx - pts[0].x) * 0.42;
+    pts[0].y += (my - pts[0].y) * 0.42;
+    for (var i = 1; i < pts.length; i++){
+      pts[i].x += (pts[i-1].x - pts[i].x) * 0.42;
+      pts[i].y += (pts[i-1].y - pts[i].y) * 0.42;
+    }
+    tctx.clearRect(0, 0, innerWidth, innerHeight);
+    tctx.globalCompositeOperation = 'lighter';
+    for (var i = 0; i < pts.length - 1; i++){
+      var t = 1 - i / (pts.length - 1);
+      var mxp = (pts[i].x + pts[i+1].x) / 2, myp = (pts[i].y + pts[i+1].y) / 2;
+      tctx.beginPath();
+      tctx.moveTo(pts[i].x, pts[i].y);
+      tctx.quadraticCurveTo(pts[i].x, pts[i].y, mxp, myp);
+      tctx.strokeStyle = 'rgba(185,152,86,' + (0.34 * t * t) + ')';
+      tctx.lineWidth = 7 * t + 0.4;
+      tctx.lineCap = 'round';
+      tctx.stroke();
+      tctx.strokeStyle = 'rgba(235,232,226,' + (0.16 * t * t * t) + ')';
+      tctx.lineWidth = 2.2 * t + 0.2;
+      tctx.stroke();
+    }
+  }
+
   (function loop() {
     rx += (mx - rx) * 0.16;
     ry += (my - ry) * 0.16;
