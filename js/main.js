@@ -26,7 +26,7 @@
     document.querySelectorAll('.case__gallery img, .case__figure img, .case__img img').forEach(function (im) {
       im.addEventListener('click', function () {
         lbImg.src = im.currentSrc || im.src;
-        lbCap.textContent = im.alt || '';
+        if (lbCap) lbCap.textContent = '';
         lb.classList.add('is-open');
       });
       im.style.cursor = 'zoom-in';
