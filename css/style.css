@@ -39,11 +39,11 @@ img{display:block;max-width:100%}
 a,a:link,a:visited,a:active{text-decoration:none!important}
 a:visited{color:#EBE8E2}
 .top__nav a:link,.top__nav a:visited{color:#EBE8E2}
-.top__lang:link,.top__lang:visited{color:#B99856!important}
-.contact__meta a:link,.contact__meta a:visited,.contact__social a:link,.contact__social a:visited{color:#77736C}
-.contact__meta a:hover,.contact__social a:hover{color:#EBE8E2}
-.contact__mail:link,.contact__mail:visited{color:#EBE8E2}
-.contact__mail:hover{color:#B99856}
+.top__lang:link,.top__lang:visited{color:#B99856!important;-webkit-text-fill-color:#B99856}
+.contact__meta a:link,.contact__meta a:visited,.contact__social a:link,.contact__social a:visited{color:#77736C;-webkit-text-fill-color:#77736C}
+.contact__meta a:hover,.contact__social a:hover{color:#EBE8E2;-webkit-text-fill-color:#EBE8E2}
+.contact__mail:link,.contact__mail:visited{color:#EBE8E2;-webkit-text-fill-color:#EBE8E2}
+.contact__mail:hover{color:#B99856;-webkit-text-fill-color:#B99856}
 .case__nav a:link,.case__nav a:visited{color:#EBE8E2}
 a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 
@@ -377,3 +377,10 @@ html[dir="rtl"] .row__title,html[dir="rtl"] .case__title{direction:rtl;text-alig
 .films{padding:8vh var(--pad) 12vh;display:grid;gap:9vh;max-width:1200px}
 .film iframe{width:100%;aspect-ratio:16/9;border:1px solid var(--hair);display:block;background:#000}
 .film figcaption{margin-top:12px}
+
+
+/* -------- mobile e-mail fit -------- */
+@media (max-width:640px){
+  .contact__mail{font-size:clamp(12px, calc((100vw - 52px) / 15), 26px);letter-spacing:0}
+  .case__foot .contact__mail{font-size:clamp(12px, calc((100vw - 52px) / 15), 24px)}
+}
