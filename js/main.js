@@ -5,6 +5,30 @@
   var fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
   var noMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
+  /* ---------- language memory ---------- */
+  try {
+    var isHe = (document.documentElement.lang || '').toLowerCase() === 'he';
+    document.querySelectorAll('.top__lang').forEach(function (a) {
+      a.addEventListener('click', function () {
+        try { localStorage.setItem('lang', isHe ? 'en' : 'he'); } catch (e) {}
+      });
+    });
+    var pref = null;
+    try { pref = localStorage.getItem('lang'); } catch (e) {}
+    if (!pref && ((navigator.language || '').toLowerCase().indexOf('he') === 0)) pref = 'he';
+    var cur = isHe ? 'he' : 'en';
+    if (pref && pref !== cur) {
+      var p = location.pathname;
+      var target = null;
+      if (pref === 'he' && p.indexOf('/he/') !== 0) {
+        target = '/he' + (p === '/' || p === '' ? '/index.html' : p);
+      } else if (pref === 'en' && p.indexOf('/he/') === 0) {
+        target = p.replace(/^\/he/, '') || '/';
+      }
+      if (target) { location.replace(target); return; }
+    }
+  } catch (e) {}
+
   /* ---------- scroll reveal ---------- */
   var revealed = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && !noMotion) {
