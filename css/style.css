@@ -129,12 +129,12 @@ a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 
 .case__img--video{aspect-ratio:auto;background:#000;display:flex;justify-content:center}
 .case__img--video video{
-  width:auto;max-width:min(720px,100%);
-  max-height:min(42vh,380px);
+  width:auto;max-width:min(1180px,100%);
+  max-height:min(68vh,620px);
   height:auto;object-fit:contain;display:block;margin:0 auto;
 }
 @media (max-width:900px){
-  .case__img--video video{max-width:100%;max-height:38vh}
+  .case__img--video video{max-width:100%;max-height:56vh}
 }
 .case__figure--wide video{width:100%;border:1px solid var(--hair);background:#000;display:block}
 
