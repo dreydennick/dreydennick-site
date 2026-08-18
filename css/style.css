@@ -375,6 +375,7 @@ html[dir="rtl"] .hero__rule{transform-origin:right}
 html[dir="rtl"] .side-mark{left:auto;right:14px}
 html[dir="rtl"] .case__body p,html[dir="rtl"] .case__body li,html[dir="rtl"] .about__body p,html[dir="rtl"] .hero__slogan,html[dir="rtl"] .vision__note{font-size:clamp(16px,1.25vw,18px);line-height:1.7}
 html[dir="rtl"] .hero__title,html[dir="rtl"] .contact__mail{direction:ltr}
+html[dir="rtl"] .contact__meta a[href^="tel:"]{direction:ltr;unicode-bidi:isolate}
 html[dir="rtl"] .row__title,html[dir="rtl"] .case__title{direction:rtl;text-align:right}
 
 
