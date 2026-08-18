@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Stats — Dreyden Visual Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<style>
+  :root{--ink:#0C0C0D;--paper:#EBE8E2;--mut:#77736C;--gold:#B99856;--hair:rgba(235,232,226,.14)}
+  *{box-sizing:border-box;margin:0}
+  body{background:var(--ink);color:var(--paper);font:14px/1.6 "IBM Plex Mono",monospace;
+       padding:clamp(20px,5vw,64px);min-height:100vh}
+  h1{font-size:13px;text-transform:uppercase;letter-spacing:.14em;color:var(--mut);margin-bottom:32px}
+  h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut);
+     margin:40px 0 12px;padding-top:18px;border-top:1px solid var(--hair)}
+  .cards{display:flex;gap:40px;flex-wrap:wrap;margin-top:8px}
+  .card b{display:block;font-size:clamp(30px,5vw,48px);font-weight:500;color:var(--paper)}
+  .card span{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+  table{border-collapse:collapse;width:100%;max-width:640px}
+  td{padding:4px 16px 4px 0;border-bottom:1px solid var(--hair);vertical-align:top}
+  td:last-child{text-align:right;color:var(--gold)}
+  .bar{height:5px;background:var(--gold);opacity:.55;margin-top:4px}
+  #login input{background:none;border:1px solid var(--hair);color:var(--paper);
+    font:inherit;padding:10px 14px;width:min(280px,70vw)}
+  #login button{background:var(--gold);border:0;color:var(--ink);font:inherit;
+    padding:10px 22px;cursor:pointer;margin-left:8px}
+  #err{color:#c96;margin-top:12px;display:none}
+  #board{display:none}
+</style>
+</head>
+<body>
+<h1>Dreyden Visual Atelier · Site Stats</h1>
+
+<div id="login">
+  <input type="password" id="key" placeholder="access key" autocomplete="current-password">
+  <button id="go">Open</button>
+  <p id="err"></p>
+</div>
+
+<div id="board">
+  <div class="cards">
+    <div class="card"><b id="views">–</b><span>page views</span></div>
+    <div class="card"><b id="uniq">–</b><span>unique visitors</span></div>
+    <div class="card"><b id="ret">–</b><span>returning</span></div>
+  </div>
+
+  <h2 id="sinceH">Daily</h2>
+  <table id="days"></table>
+
+  <h2>Countries</h2>
+  <table id="countries"></table>
+
+  <h2>Top pages</h2>
+  <table id="pages"></table>
+
+  <h2>Language versions</h2>
+  <table id="langs"></table>
+</div>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  function esc(s){var d=document.createElement('span');d.textContent=String(s);return d.innerHTML}
+  function rows(el,items,fmtK){
+    var max=Math.max.apply(null,items.map(function(i){return i.v}).concat([1]));
+    el.innerHTML=items.map(function(i){
+      return '<tr><td>'+esc(fmtK?fmtK(i.k):i.k)+
+        '<div class="bar" style="width:'+Math.round(100*i.v/max)+'%"></div></td><td>'+i.v+'</td></tr>';
+    }).join('');
+  }
+  function load(key){
+    fetch('/api/stats?key='+encodeURIComponent(key))
+      .then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j}})})
+      .then(function(res){
+        if(!res.ok){ $('err').textContent=res.j.error||'error'; $('err').style.display='block'; return; }
+        try{localStorage.setItem('dva-stats-key',key)}catch(e){}
+        var j=res.j;
+        $('login').style.display='none'; $('board').style.display='block';
+        $('views').textContent=j.total_views;
+        $('uniq').textContent=j.unique_visitors;
+        $('ret').textContent=j.returning_visitors;
+        if(j.since) $('sinceH').textContent='Daily · since '+j.since;
+        rows($('days'), j.by_day.slice().reverse().map(function(d){
+          return {k:d.date+'  ·  '+d.uniques+' uniq', v:d.views};
+        }));
+        rows($('countries'), j.by_country);
+        rows($('pages'), j.top_pages);
+        rows($('langs'), [
+          {k:'English', v:j.by_lang.en},
+          {k:'Hebrew',  v:j.by_lang.he},
+          {k:'Other',   v:j.by_lang.other}
+        ]);
+      })
+      .catch(function(){ $('err').textContent='network error'; $('err').style.display='block'; });
+  }
+  $('go').onclick=function(){ load($('key').value) };
+  $('key').addEventListener('keydown',function(e){ if(e.key==='Enter') load($('key').value) });
+  var saved=null; try{saved=localStorage.getItem('dva-stats-key')}catch(e){}
+  if(saved) load(saved);
+})();
+</script>
+</body>
+</html>
