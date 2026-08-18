@@ -125,6 +125,7 @@ TPL = '''<!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="../assets/img/favicon.png">
 <link rel="stylesheet" href="../css/style.css?v=3">
+<script defer data-domain="dreydennick.com" src="https://plausible.io/js/script.js"></script>
 </head>
 <body class="case-page">
 <div class="cursor" aria-hidden="true"><div class="cursor__lens"></div></div>
