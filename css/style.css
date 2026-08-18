@@ -388,6 +388,10 @@ html[dir="rtl"] .row__title,html[dir="rtl"] .case__title{direction:rtl;text-alig
 
 /* -------- mobile e-mail fit -------- */
 @media (max-width:640px){
-  .contact__mail{font-size:clamp(12px, calc((100vw - 52px) / 15), 26px);letter-spacing:0}
-  .case__foot .contact__mail{font-size:clamp(12px, calc((100vw - 52px) / 15), 24px)}
+  .contact__mail{
+    font-size:clamp(13px, calc((100vw - 44px) / 18), 26px);
+    font-stretch:100%;letter-spacing:-.015em;
+    overflow-wrap:anywhere;
+  }
+  .case__foot .contact__mail{font-size:clamp(13px, calc((100vw - 44px) / 19), 24px)}
 }
