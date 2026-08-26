@@ -190,6 +190,14 @@ TPL = '''<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,100..900&family=Heebo:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../css/style.css?v=3">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Dreyden Visual Atelier">
+<meta property="og:title" content="{title} — ניק דריידן">
+<meta property="og:description" content="{title} · {venue} · {year}. פרויקט של ניק דריידן — אמן חזותי, במאי מולטימדיה.">
+<meta property="og:url" content="https://dreydennick.com/he/cases/{slug}.html">
+<meta property="og:image" content="{ogimg}">
+<meta property="og:locale" content="he_IL">
+<meta name="twitter:card" content="summary_large_image">
 <script defer src="/js/count.js"></script>
 </head>
 <body class="case-page">
@@ -266,6 +274,6 @@ for i, c in enumerate(HE):
         hero = '<div class="case__img case__img--empty mono"><span>חומרים חזותיים — בקרוב</span></div>'
     page = TPL.format(slug=c['slug'], title=html.escape(c['title']), venue=c['venue'], year=c['year'], cat=c['cat'],
                       heroblock=hero, body=body,
-                      prev=HE[i-1]['slug']+'.html', next=HE[(i+1) % n]['slug']+'.html')
+                      prev=HE[i-1]['slug']+'.html', next=HE[(i+1) % n]['slug']+'.html', ogimg=gen2.og_image(en))
     open(os.path.join(OUT, c['slug']+'.html'), 'w', encoding='utf-8').write(page)
     print(c['slug'], 'he ok')
