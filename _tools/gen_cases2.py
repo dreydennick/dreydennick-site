@@ -16,6 +16,9 @@ CASES = [
       local='../assets/img/chiquititas-poster.jpg', mode='poster',
       heroVideo='../assets/video/chq-reel.mp4', heroPoster='../assets/img/chq-reel-poster.jpg',
       extra='<figure class="case__figure case__figure--wide"><video src="../assets/video/chq-reel.mp4" poster="../assets/img/chq-reel-poster.jpg" controls loop muted playsinline preload="none"></video></figure>',
+      galleryLabel='Concept — The Screen World',
+      gallery2Label='On Stage — Expo Tel Aviv',
+      gallery2=[('../assets/img/gallery/chq-live-1.jpg', 'Saverio\'s circus — live at Expo'), ('../assets/img/gallery/chq-live-3.jpg', 'The staircase conservatory — LED wall behind the cast'), ('../assets/img/gallery/chq-live-2.jpg', 'Dance on the tables'), ('../assets/img/gallery/chq-live-4.jpg', 'The great window'), ('../assets/img/gallery/chq-live-5.jpg', 'The mansion facade')],
       gallery=[('../assets/img/gallery/chq-1.jpg', 'Show curtain — Chiquititas'), ('../assets/img/gallery/chq-2.jpg', 'Buenos Aires street — Living Interior'), ('../assets/img/gallery/chq-3.jpg', ''), ('../assets/img/gallery/chq-4.jpg', ''), ('../assets/img/gallery/chq-5.jpg', 'Hogar de Niños — night'), ('../assets/img/gallery/chq-6.jpg', 'Rincón de Luz — ruined'), ('../assets/img/gallery/chq-7.jpg', 'Rincón — faded roses (state morph)'), ('../assets/img/gallery/chq-8.jpg', 'Art Nouveau flora — detail'), ('../assets/img/gallery/chq-9.jpg', 'Vertical triptych — factory, staircase, precinct')]),
  dict(slug='noam-horev-live', head='NOAM HOREV — LIVE', year='2026', venue='Concert season · Israel', cat='Concert video design',
       local='../assets/img/horev-live.jpg',
@@ -105,13 +108,13 @@ def body_html(md):
     if in_ul: out.append('</ul>')
     return '\n'.join(out)
 
-def gallery_html(items):
+def gallery_html(items, label='Gallery'):
     if not items: return ''
     figs = ''
     for src, cap in items:
         alt = html.escape(cap) if cap.strip() else ''
         figs += f'<figure><img src="{src}" alt="{alt}" loading="lazy"></figure>'
-    return f'<h2 class="case__label mono">Gallery</h2>\n<div class="case__gallery">{figs}</div>'
+    return f'<h2 class="case__label mono">{html.escape(label)}</h2>\n<div class="case__gallery">{figs}</div>'
 
 TPL = '''<!DOCTYPE html>
 <html lang="en">
@@ -180,7 +183,9 @@ TPL = '''<!DOCTYPE html>
 n = len(CASES)
 for i, c in enumerate(CASES):
     body = body_html(find_body(c['head']))
-    body += '\n' + gallery_html(c.get('gallery', []))
+    body += '\n' + gallery_html(c.get('gallery', []), c.get('galleryLabel', 'Gallery'))
+    if c.get('gallery2'):
+        body += '\n' + gallery_html(c['gallery2'], c.get('gallery2Label', 'Gallery'))
     if c.get('extra'):
         body += '\n' + c['extra']
     mode = ' case__img--' + c['mode'] if c.get('mode') else ''
