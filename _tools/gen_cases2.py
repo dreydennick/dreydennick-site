@@ -183,9 +183,9 @@ TPL = '''<!DOCTYPE html>
 n = len(CASES)
 for i, c in enumerate(CASES):
     body = body_html(find_body(c['head']))
-    body += '\n' + gallery_html(c.get('gallery', []), c.get('galleryLabel', 'Gallery'))
     if c.get('gallery2'):
         body += '\n' + gallery_html(c['gallery2'], c.get('gallery2Label', 'Gallery'))
+    body += '\n' + gallery_html(c.get('gallery', []), c.get('galleryLabel', 'Gallery'))
     if c.get('extra'):
         body += '\n' + c['extra']
     mode = ' case__img--' + c['mode'] if c.get('mode') else ''
