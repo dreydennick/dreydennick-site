@@ -170,13 +170,13 @@ CAP_HE = {'On stage':'על הבמה','Finale bow':'קידה בפינאלה','In 
  'Video art — sculpture study':'וידאו־ארט — אטיוד פיסולי','Video art — detail':'וידאו־ארט — פרט',
  'At the console':'בעמדת השליטה','Collage':'קולאז\'','Event reel · June 16, 2026':'ריל מהאירוע · 16 ביוני 2026'}
 
-def gal_html(items):
+def gal_html(items, lbl='גלריה'):
     if not items: return ''
     figs=''
     for src,cap in items:
         cap_he = CAP_HE.get(cap, cap) if cap.strip() else ''
         figs += f'<figure><img src="{src.replace("../assets","../../assets")}" alt="{html.escape(cap_he)}" loading="lazy"></figure>'
-    return f'<h2 class="case__label mono">גלריה</h2>\n<div class="case__gallery">{figs}</div>'
+    return f'<h2 class="case__label mono">{lbl}</h2>\n<div class="case__gallery">{figs}</div>'
 
 TPL = '''<!DOCTYPE html>
 <html lang="he" dir="rtl">
@@ -245,7 +245,9 @@ TPL = '''<!DOCTYPE html>
 n = len(HE)
 for i, c in enumerate(HE):
     en = EN[c['slug']]
-    body = c['body'] + '\n' + gal_html(en.get('gallery', []))
+    body = c['body'] + '\n' + gal_html(en.get('gallery', []), 'קונספט — עולם המסך' if c['slug']=='chiquititas' else 'גלריה')
+    if en.get('gallery2'):
+        body += '\n' + gal_html(en['gallery2'], 'על הבמה — אקספו תל אביב')
     if en.get('extra'):
         extra = en['extra'].replace('../assets','../../assets')
         extra = extra.replace('Event reel · June 16, 2026', CAP_HE['Event reel · June 16, 2026'])
