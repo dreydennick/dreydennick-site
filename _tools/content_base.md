@@ -64,6 +64,7 @@ _Статус: премьера состоялась 12.08.2026, аншлаги;
 **Summary.** The Israeli stage adaptation of Chiquititas — the legendary Latin American musical franchise beloved by generations — arrives at Expo Tel Aviv as a large-scale family musical. At its scenographic heart is a monumental LED wall, for which Nick Dreyden creates the full visual world of the show as video designer and screen scenographer.
 
 **Creative Team**
+- Director: Shachar Peretz
 - Video Design & Screen Scenography: Nick Dreyden
 - Producer: Maor Maimon (toMix)
 - Set Designer: Batya Segal-Pick
