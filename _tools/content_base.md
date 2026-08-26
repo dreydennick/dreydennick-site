@@ -59,7 +59,7 @@ Collaborations: toMix, Solan, Brothers for Life, Gesher, Habima, Tmuna, Fulcro, 
 
 ### CHIQUITITAS / KTANTANOT (toMix · Expo Tel Aviv, Pavilion 2, 2026)
 `stage / musical — LED-wall video design & screen scenography` · Hero: нет — нужен материал (есть кадры аниматика)
-_Статус: премьера 12 августа 2026 (доп. показы 14 и 16 августа) — до премьеры формулируем в будущем времени._
+_Статус: премьера состоялась 12.08.2026, аншлаги; Impact обновлён 24.08 (рецензии Srugim/Решет 13 + аргентинская пресса о ремейке-2027)._
 
 **Summary.** The Israeli stage adaptation of Chiquititas — the legendary Latin American musical franchise beloved by generations — arrives at Expo Tel Aviv as a large-scale family musical. At its scenographic heart is a monumental LED wall, for which Nick Dreyden creates the full visual world of the show as video designer and screen scenographer.
 
@@ -74,7 +74,7 @@ _Статус: премьера 12 августа 2026 (доп. показы 14 
 
 **Visual & Multimedia Concept.** The production's screen world is conceived as a living, hand-drawn animated universe in a retro-illustration aesthetic — the LED wall becomes the emotional barometer of the narrative. Dreyden's video score (developed scene-by-scene across the full show) is built from "Living Interiors" — animated environments breathing behind the performers, constructed on the depth-and-perspective illusion principles of the Renaissance masters; "Fantasy Tableaux" — full-screen imaginative sequences; and "State Morphs" — seamless transitions between emotional states of the same space. The content is engineered for live theatrical playback, with the video layer cued to the musical structure of each number.
 
-**Impact.** Ahead of the premiere, the production drew national media attention: music press covered it as international news — thirty years after becoming a television phenomenon, Chiquititas returns in a new and unexpected Israeli stage version, with all the beloved songs performed in Israel for the first time.
+**Impact.** The production premiered on August 12, 2026 to a sold-out run at Expo Tel Aviv, with Argentine entertainment press reporting full houses across all performances and audiences singing along to every number. Israeli critics received the show warmly: reviewers for Srugim described an impressive, precise production that stands on its own beyond nostalgia — praising the spectacular set design ("התפאורה מרהיבה") and noting that the staging read clearly even from the farthest rows of the pavilion — while Reshet 13 called it a well-crafted, engaging production. The Israeli staging quickly became an international reference point: within a week of the premiere, Argentine media reported that Cris Morena and RGB Entertainment are preparing a large-scale Chiquititas revival at Movistar Arena in Buenos Aires, explicitly modeled on the Tel Aviv production.
 
 **Материалы (презентации, Drive):** `1_KSY5Nf09al_kHGea64PoyPiBBV9jMc8` и `1TaRhYtsxz0BXlw1xobuG2Gr6DrHG-_we` — задача: извлечь максимально эффектные иллюстрации для оформления сайта.
 
