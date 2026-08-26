@@ -12,7 +12,7 @@ def wix(f):
     return f'{WIX}{f}'
 
 CASES = [
- dict(slug='chiquititas', head='CHIQUITITAS / KTANTANOT', year='2026', venue='toMix · Expo Tel Aviv, Israel / Buenos Aires, Argentina', cat='Musical · LED scenography',
+ dict(slug='chiquititas', og='../assets/img/gallery/chq-live-1.jpg', head='CHIQUITITAS / KTANTANOT', year='2026', venue='toMix · Expo Tel Aviv, Israel / Buenos Aires, Argentina', cat='Musical · LED scenography',
       local='../assets/img/chiquititas-poster.jpg', mode='poster',
       heroVideo='../assets/video/chq-reel.mp4', heroPoster='../assets/img/chq-reel-poster.jpg',
       extra='<figure class="case__figure case__figure--wide"><video src="../assets/video/chq-reel.mp4" poster="../assets/img/chq-reel-poster.jpg" controls loop muted playsinline preload="none"></video></figure>',
@@ -116,6 +116,17 @@ def gallery_html(items, label='Gallery'):
         figs += f'<figure><img src="{src}" alt="{alt}" loading="lazy"></figure>'
     return f'<h2 class="case__label mono">{html.escape(label)}</h2>\n<div class="case__gallery">{figs}</div>'
 
+
+def og_image(c):
+    for k in ('og', 'heroPoster', 'local'):
+        v = c.get(k)
+        if v: break
+    else:
+        v = wix(c['hero']) if c.get('hero') else (c.get('gallery') or [('',)])[0][0]
+    if not v: v = '../assets/img/bfl-aerial-hero.jpg'
+    if v.startswith('http'): return v
+    return 'https://dreydennick.com/' + v.replace('../', '')
+
 TPL = '''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -128,6 +139,14 @@ TPL = '''<!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="../assets/img/favicon.png">
 <link rel="stylesheet" href="../css/style.css?v=3">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Dreyden Visual Atelier">
+<meta property="og:title" content="{title} — Nick Dreyden">
+<meta property="og:description" content="{title} · {venue} · {year}. Case by Nick Dreyden — Visual Artist, Multimedia Director.">
+<meta property="og:url" content="https://dreydennick.com/cases/{slug}.html">
+<meta property="og:image" content="{ogimg}">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
 <script defer src="/js/count.js"></script>
 </head>
 <body class="case-page">
@@ -200,6 +219,6 @@ for i, c in enumerate(CASES):
         hero = '<div class="case__img case__img--empty mono"><span>Visual materials — coming soon</span></div>'
     page = TPL.format(slug=c['slug'], title=html.escape(c['head']), venue=c['venue'], year=c['year'], cat=c['cat'],
                       heroblock=hero, body=body,
-                      prev=CASES[i-1]['slug']+'.html', next=CASES[(i+1) % n]['slug']+'.html')
+                      prev=CASES[i-1]['slug']+'.html', next=CASES[(i+1) % n]['slug']+'.html', ogimg=og_image(c))
     open(os.path.join(OUT, c['slug']+'.html'), 'w', encoding='utf-8').write(page)
     print(c['slug'], 'gallery:', len(c.get('gallery', [])))
