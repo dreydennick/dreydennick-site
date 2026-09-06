@@ -165,6 +165,14 @@
 (function(){
   var v = document.querySelector('.hero__video');
   if (!v) return;
+  var noMotionPref = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (noMotionPref) {
+    v.removeAttribute('autoplay');
+    var freeze = function(){ v.pause(); };
+    if (v.readyState >= 2) freeze(); else v.addEventListener('loadeddata', freeze, {once:true});
+    if (!v.paused) freeze();
+    return;
+  }
   var tryPlay = function(){
     if (!v.paused) return cleanup();
     if (v.readyState === 0 && v.load) v.load();
