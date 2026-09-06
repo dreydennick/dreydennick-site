@@ -125,7 +125,7 @@ a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 }
 .hero > *:not(.hero__video){position:relative}
 @media (prefers-reduced-motion:reduce){.hero__video{display:none}}
-@media (max-width:640px){.hero__video{opacity:.22}}
+@media (max-width:640px){.hero__video{opacity:.30}}
 
 .case__img--video{aspect-ratio:auto;background:#000;display:flex;justify-content:center}
 .case__img--video video{
