@@ -181,3 +181,26 @@
   window.addEventListener('scroll', tryPlay, {passive:true});
   document.addEventListener('visibilitychange', tryPlay);
 })();
+
+
+/* -------- ?vdebug: on-screen hero video diagnostics -------- */
+(function(){
+  if (location.search.indexOf('vdebug') === -1) return;
+  var v = document.querySelector('.hero__video');
+  var d = document.createElement('div');
+  d.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:99999;background:rgba(0,0,0,.85);color:#7CFC00;font:11px/1.5 monospace;padding:10px 12px;white-space:pre;pointer-events:none;border:1px solid #444';
+  var upd = function(){
+    if (!v) { d.textContent = 'no .hero__video in DOM'; return; }
+    var cs = getComputedStyle(v);
+    d.textContent =
+      'reduced-motion: ' + matchMedia('(prefers-reduced-motion: reduce)').matches +
+      '\npaused: ' + v.paused + '   readyState: ' + v.readyState +
+      '\nerror: ' + (v.error ? v.error.code + ' ' + (v.error.message||'') : 'none') +
+      '\nvideoSize: ' + v.videoWidth + 'x' + v.videoHeight +
+      '\nsrc: ' + (v.currentSrc || '(empty)').split('/').pop() +
+      '\ndisplay: ' + cs.display + '  visibility: ' + cs.visibility +
+      '\nopacity: ' + cs.opacity + '  z-index: ' + cs.zIndex;
+  };
+  (document.body || document.documentElement).appendChild(d);
+  upd(); setInterval(upd, 1000);
+})();
