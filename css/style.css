@@ -124,7 +124,7 @@ a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
   pointer-events:none;
 }
 .hero > *:not(.hero__video){position:relative;z-index:1}
-@media (prefers-reduced-motion:reduce){.hero__video{display:none}}
+/* reduced-motion: видео остаётся видимым, но JS держит его на паузе (статичный кадр) */
 @media (max-width:640px){.hero__video{opacity:.30}}
 
 .case__img--video{aspect-ratio:auto;background:#000;display:flex;justify-content:center}
