@@ -159,3 +159,25 @@
     document.documentElement.classList.remove('has-cursor'); /* any JS failure: bring native cursor back */
   });
 })();
+
+
+/* -------- hero video: recover autoplay when iOS blocks it (Low Power / Low Data mode) -------- */
+(function(){
+  var v = document.querySelector('.hero__video');
+  if (!v) return;
+  var tryPlay = function(){
+    if (!v.paused) return cleanup();
+    if (v.readyState === 0 && v.load) v.load();
+    var p = v.play();
+    if (p && p.then) p.then(cleanup).catch(function(){});
+  };
+  var cleanup = function(){
+    window.removeEventListener('touchstart', tryPlay);
+    window.removeEventListener('scroll', tryPlay);
+    document.removeEventListener('visibilitychange', tryPlay);
+  };
+  tryPlay();
+  window.addEventListener('touchstart', tryPlay, {passive:true});
+  window.addEventListener('scroll', tryPlay, {passive:true});
+  document.addEventListener('visibilitychange', tryPlay);
+})();
