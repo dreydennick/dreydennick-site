@@ -127,6 +127,21 @@ def og_image(c):
     if v.startswith('http'): return v
     return 'https://dreydennick.com/' + v.replace('../', '')
 
+
+def jsonld(c, lang='en'):
+    import json as _json
+    creator = {"@type":"Person","name":"Nick Dreyden","url":"https://dreydennick.com/"}
+    d = {"@context":"https://schema.org","@type":"CreativeWork",
+         "name": c.get('title') or c.get('head'),
+         "creator": creator,
+         "locationCreated": c.get('venue',''),
+         "dateCreated": str(c.get('year','')),
+         "inLanguage": lang,
+         "url": f"https://dreydennick.com/{'he/' if lang=='he' else ''}cases/{c['slug']}.html",
+         "image": og_image(c),
+         "genre": "stage video design / video art"}
+    return '<script type="application/ld+json">' + _json.dumps(d, ensure_ascii=False) + '</script>'
+
 TPL = '''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -147,6 +162,7 @@ TPL = '''<!DOCTYPE html>
 <meta property="og:image" content="{ogimg}">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
+{ld}
 <script defer src="/js/count.js"></script>
 </head>
 <body class="case-page">
@@ -219,6 +235,6 @@ for i, c in enumerate(CASES):
         hero = '<div class="case__img case__img--empty mono"><span>Visual materials — coming soon</span></div>'
     page = TPL.format(slug=c['slug'], title=html.escape(c['head']), venue=c['venue'], year=c['year'], cat=c['cat'],
                       heroblock=hero, body=body,
-                      prev=CASES[i-1]['slug']+'.html', next=CASES[(i+1) % n]['slug']+'.html', ogimg=og_image(c))
+                      prev=CASES[i-1]['slug']+'.html', next=CASES[(i+1) % n]['slug']+'.html', ogimg=og_image(c), ld=jsonld(c))
     open(os.path.join(OUT, c['slug']+'.html'), 'w', encoding='utf-8').write(page)
     print(c['slug'], 'gallery:', len(c.get('gallery', [])))
