@@ -183,8 +183,8 @@ TPL = '''<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{title} — ניק דריידן</title>
-<meta name="description" content="{title} · {venue} · {year}. פרויקט של ניק דריידן — אמן חזותי, במאי מולטימדיה.">
+<title>{title} — וידאו ארט וסצנוגרפיית מסך | ניק דריידן</title>
+<meta name="description" content="{title} · {venue} · {year}. עיצוב וידאו ותוכן למסכי לד — פרויקט של ניק דריידן, אמן חזותי ובמאי מולטימדיה.">
 <link rel="icon" type="image/png" href="../../assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -198,6 +198,7 @@ TPL = '''<!DOCTYPE html>
 <meta property="og:image" content="{ogimg}">
 <meta property="og:locale" content="he_IL">
 <meta name="twitter:card" content="summary_large_image">
+{ld}
 <script defer src="/js/count.js"></script>
 </head>
 <body class="case-page">
@@ -274,6 +275,6 @@ for i, c in enumerate(HE):
         hero = '<div class="case__img case__img--empty mono"><span>חומרים חזותיים — בקרוב</span></div>'
     page = TPL.format(slug=c['slug'], title=html.escape(c['title']), venue=c['venue'], year=c['year'], cat=c['cat'],
                       heroblock=hero, body=body,
-                      prev=HE[i-1]['slug']+'.html', next=HE[(i+1) % n]['slug']+'.html', ogimg=gen2.og_image(en))
+                      prev=HE[i-1]['slug']+'.html', next=HE[(i+1) % n]['slug']+'.html', ogimg=gen2.og_image(en), ld=gen2.jsonld(en, lang='he'))
     open(os.path.join(OUT, c['slug']+'.html'), 'w', encoding='utf-8').write(page)
     print(c['slug'], 'he ok')
