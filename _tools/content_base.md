@@ -111,6 +111,23 @@ _Статус: сезон идёт — Impact дополним по ходу т�
 
 **Материалы (Drive):** `1qiTOpB96w9sEFOpLZyNUQBKUkBfDyTru` и `12BCK711jyPRoAxODzrGmTIHO5bePezkY` — задача: извлечь максимально эффектные иллюстрации для оформления сайта.
 
+### NETZACH ISRAEL (Jerusalem Theatre — Sherover Hall, 2026)
+`stage / musical-theatrical show — video design & LED scenography` · Hero: постер (кадры со сцены и Impact — после премьеры)
+_Статус: премьера 27.09.2026; галерея и Impact ждут материалов._
+
+**Summary.** Netzach Israel ("The Eternity of Israel") is a musical-theatrical spectacle that takes the audience on a sweeping journey from the Bible to the Israel of today — through the stories, songs and defining moments that shaped the nation. First-line stars, a live band, actors and dancers perform against full-stage LED scenography: Nick Dreyden, as video designer and LED scenographer, builds the visual world that brings each era to life — one evening in which everything awakens. Produced by Moreshet Theatre in partnership with the Authority for Jewish National Identity at the Prime Minister's Office, with the support of the Ministry of Culture and Sport.
+
+**Creative Team**
+- Written by: Meni-Menachem Yulzari & Revital Fisher
+- Director: Roi Malka
+- Musical Direction: Moshe Danino
+- Artistic Direction: Galit Rozenshtein
+- Video Design & LED Scenography: Nick Dreyden
+- Production: Moreshet Theatre
+- Cast: Bar Tzabari, Moshe Korsia, Raviv Kaner, Moris Cohen, Shmeichel Fisher — with guest artists, a live band and dancers
+
+**Premiere.** September 27, 2026 — Jerusalem Theatre, Sherover Hall, Jerusalem.
+
 ## 2025
 
 ### IMAGINE FESTIGAL (Solan Productions, Israel, 2025)
