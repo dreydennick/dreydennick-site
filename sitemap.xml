@@ -181,4 +181,14 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://dreydennick.com/cases/tzeirei-tel-aviv.html"/>
     <xhtml:link rel="alternate" hreflang="he" href="https://dreydennick.com/he/cases/tzeirei-tel-aviv.html"/>
   </url>
+  <url>
+    <loc>https://dreydennick.com/cases/netzach-israel.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dreydennick.com/cases/netzach-israel.html"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://dreydennick.com/he/cases/netzach-israel.html"/>
+  </url>
+  <url>
+    <loc>https://dreydennick.com/he/cases/netzach-israel.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://dreydennick.com/cases/netzach-israel.html"/>
+    <xhtml:link rel="alternate" hreflang="he" href="https://dreydennick.com/he/cases/netzach-israel.html"/>
+  </url>
 </urlset>
