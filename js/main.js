@@ -300,3 +300,70 @@
     el.classList.remove('is-on'); IT = 0; kick();
   });
 })();
+
+
+/* -------- mobile depth: virtual stage light above the screen, shadows shift with scroll -------- */
+(function(){
+  var fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (fine || noMotion) return;
+
+  var amb = document.createElement('div');
+  amb.className = 'ambient';
+  document.body.appendChild(amb);
+  setTimeout(function(){ document.documentElement.classList.add('lines-open'); }, 2600);
+
+  var SEL = [
+    ['.hero__title, .case__title, .row__title, .vision__quote p, .contact__mail, h2:not(.case__label)', 't', 8],
+    ['.case__gallery img, .about__photo, .vision__art, .case__img', 'i', 12],
+    ['.hero__logos img, .atelier-mark', 'l', 6]
+  ];
+  var items = [], visible = new Set();
+  SEL.forEach(function(g){
+    document.querySelectorAll(g[0]).forEach(function(n){
+      n.classList.add('dz-' + g[1]);
+      items.push({n:n, max:g[2], k:''});
+    });
+  });
+
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      var it = e.target.__dz;
+      if (e.isIntersecting) visible.add(it); else visible.delete(it);
+    });
+    kick();
+  }, {rootMargin:'25% 0px'});
+  items.forEach(function(it){ it.n.__dz = it; io.observe(it.n); });
+
+  var raf = null;
+  function frame(){
+    raf = null;
+    var W = innerWidth, H = innerHeight;
+    var lx = W / 2, ly = -0.35 * H;          /* light hangs above the top edge, like a stage spot */
+    var reads = [];
+    visible.forEach(function(it){ reads.push([it, it.n.getBoundingClientRect()]); });
+    for (var k = 0; k < reads.length; k++){
+      var it = reads[k][0], r = reads[k][1];
+      var dx = r.left + r.width/2 - lx, dy = r.top + r.height/2 - ly;
+      var d = Math.sqrt(dx*dx + dy*dy) || 1;
+      var reach = Math.min(d / (H * 1.25), 1);
+      var off = it.max * (0.3 + 0.7 * reach);
+      var sx = Math.round(dx / d * off * 2) / 2, sy = Math.round(dy / d * off * 2) / 2;
+      var sb = Math.round(3 + 9 * reach);
+      var sa = (0.6 * (1 - 0.45 * reach)).toFixed(2);
+      var key = sx + '|' + sy + '|' + sb + '|' + sa;
+      if (key === it.k) continue;
+      it.k = key;
+      var st = it.n.style;
+      st.setProperty('--sx', sx + 'px');
+      st.setProperty('--sy', sy + 'px');
+      st.setProperty('--sb', sb + 'px');
+      st.setProperty('--sa', sa);
+    }
+  }
+  function kick(){ if (!raf) raf = requestAnimationFrame(frame); }
+  addEventListener('scroll', kick, {passive:true});
+  addEventListener('resize', kick);
+  addEventListener('load', kick);
+  kick();
+})();
