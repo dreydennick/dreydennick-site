@@ -310,7 +310,7 @@ a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 html.has-cursor body, html.has-cursor a, html.has-cursor button, html.has-cursor .row{cursor:none}
 
 /* -------- cursor + lens (signature, desktop only) -------- */
-.cursor-dot,.cursor{position:fixed;top:0;left:0;pointer-events:none;z-index:100}
+.cursor-dot,.cursor{position:fixed;top:0;left:0;pointer-events:none;z-index:300}
 .cursor-dot{
   width:7px;height:7px;border-radius:50%;
   background:var(--paper);
@@ -431,3 +431,8 @@ html[dir="rtl"] .row__title,html[dir="rtl"] .case__title{direction:rtl;text-alig
 }
 @media (hover:hover) and (pointer:fine){.ambient{display:none}}
 
+
+/* fullscreen video: page overlays (custom cursor) can't render there — give back the system cursor */
+html.has-cursor :fullscreen, html.has-cursor :fullscreen *{cursor:auto}
+html.has-cursor :-webkit-full-screen, html.has-cursor :-webkit-full-screen *{cursor:auto}
+html.has-cursor video:-webkit-full-screen{cursor:auto}
