@@ -426,8 +426,8 @@ html[dir="rtl"] .row__title,html[dir="rtl"] .case__title{direction:rtl;text-alig
 .ambient{
   position:fixed;inset:0;pointer-events:none;z-index:60;
   background:radial-gradient(ellipse 130% 75% at 50% -12%,
-    rgba(235,232,226,.11) 0%, rgba(235,232,226,.04) 45%, rgba(235,232,226,0) 75%);
+    rgba(235,232,226,.15) 0%, rgba(235,232,226,.06) 45%, rgba(235,232,226,0) 75%);
   mix-blend-mode:screen;
 }
 @media (hover:hover) and (pointer:fine){.ambient{display:none}}
-@media (prefers-reduced-motion:reduce){.ambient{display:none}}
+
