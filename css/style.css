@@ -417,9 +417,9 @@ html[dir="rtl"] .row__title,html[dir="rtl"] .case__title{direction:rtl;text-alig
 
 
 /* -------- spotlight depth: shadows cast away from the light (desktop only) -------- */
-.dz-t{text-shadow:var(--sx,0) var(--sy,0) var(--sb,0) rgba(0,0,0,var(--sa,0))}
-.dz-i{box-shadow:var(--sx,0) var(--sy,0) var(--sb,0) rgba(0,0,0,var(--sa,0))}
-.dz-l{filter:drop-shadow(var(--sx,0) var(--sy,0) var(--sb,0) rgba(0,0,0,var(--sa,0)))}
+.dz-t{text-shadow:var(--sh,none)}
+.dz-i{box-shadow:var(--sh,none)}
+.dz-l{filter:var(--sh,none)}
 .lines-open .line{overflow:visible}
 
 /* -------- mobile depth: fixed stage light from above, scroll-driven shadows -------- */
