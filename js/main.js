@@ -212,3 +212,30 @@
   (document.body || document.documentElement).appendChild(d);
   upd(); setInterval(upd, 1000);
 })();
+
+
+/* -------- cursor spotlight (desktop only) -------- */
+(function(){
+  var fine = matchMedia('(pointer:fine)').matches;
+  var noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!fine || noMotion) return;
+  var el = document.createElement('div');
+  el.className = 'spotlight';
+  document.body.appendChild(el);
+  var tx = innerWidth/2, ty = innerHeight/2, x = tx, y = ty, raf = null;
+  function loop(){
+    x += (tx - x) * 0.22;
+    y += (ty - y) * 0.22;
+    el.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
+    if (Math.abs(tx - x) > 0.3 || Math.abs(ty - y) > 0.3) raf = requestAnimationFrame(loop);
+    else raf = null;
+  }
+  addEventListener('mousemove', function(e){
+    tx = e.clientX; ty = e.clientY;
+    el.classList.add('is-on');
+    if (!raf) raf = requestAnimationFrame(loop);
+  }, {passive:true});
+  document.documentElement.addEventListener('mouseleave', function(){
+    el.classList.remove('is-on');
+  });
+})();
