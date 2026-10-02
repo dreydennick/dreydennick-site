@@ -1,13 +1,13 @@
 /* ============================================================
    DREYDEN — design tokens
-   ink #0C0C0D · paper #EBE8E2 · dim #77736C · gold #B99856
+   ink #1C1C1F · paper #EBE8E2 · dim #77736C · gold #B99856
    display: Archivo (expanded) · utility: IBM Plex Mono
    signature: cursor-lens revealing project frames (desktop);
    visible frame thumbnails carry imagery on touch devices
    ============================================================ */
 
 :root{
-  --ink:#0C0C0D;
+  --ink:#1C1C1F;
   --paper:#EBE8E2;
   --dim:#77736C;
   --hair:rgba(235,232,226,.14);
@@ -52,7 +52,7 @@ a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
   position:fixed;inset:0 0 auto 0;z-index:50;
   display:flex;justify-content:space-between;align-items:center;
   padding:18px var(--pad);
-  background:linear-gradient(to bottom, rgba(12,12,13,.86), rgba(12,12,13,.72));
+  background:linear-gradient(to bottom, rgba(28,28,31,.86), rgba(28,28,31,.72));
   -webkit-backdrop-filter:blur(10px);
   backdrop-filter:blur(10px);
   border-bottom:1px solid rgba(235,232,226,.06);
@@ -76,7 +76,7 @@ a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
   min-height:100svh;
   background:url("../assets/img/wave.jpg") right 38% / cover no-repeat;
   background-blend-mode:screen;
-  box-shadow:inset 0 0 0 100vmax rgba(12,12,13,.9);
+  box-shadow:inset 0 0 0 100vmax rgba(28,28,31,.9);
   display:flex;flex-direction:column;justify-content:center;
   padding:80px var(--pad) 0;
   position:relative;
@@ -165,7 +165,7 @@ a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 }
 .row__thumb img{width:100%;height:100%;object-fit:cover;filter:grayscale(28%);transition:filter .5s,transform .8s var(--ease)}
 .row:hover .row__thumb img{filter:grayscale(0);transform:scale(1.06)}
-.row__thumb--empty{display:flex;align-items:center;justify-content:center;color:var(--gold);background:#121213}
+.row__thumb--empty{display:flex;align-items:center;justify-content:center;color:var(--gold);background:#232327}
 .row__meta{transition:color .3s}
 .row__title{
   display:block;
@@ -185,7 +185,7 @@ a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 }
 .about__photo{
   aspect-ratio:4/5;border:1px solid var(--hair);
-  overflow:hidden;background:#141415;
+  overflow:hidden;background:#242428;
 }
 .about__photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%)}
 .about__body p{max-width:62ch;margin-bottom:1.2em;color:#CFCBC2;font-size:clamp(15px,1.15vw,17px)}
@@ -225,7 +225,7 @@ a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 .contact{padding:16vh var(--pad) 8vh;border-top:1px solid var(--hair);
   background:url("../assets/img/wave.jpg") center 20% / cover no-repeat;
   background-blend-mode:screen;
-  box-shadow:inset 0 0 0 100vmax rgba(12,12,13,.93)}
+  box-shadow:inset 0 0 0 100vmax rgba(28,28,31,.93)}
 .contact__mail{
   display:inline-block;margin:5vh 0 4vh;
   font-weight:640;font-stretch:122%;text-transform:uppercase;
@@ -244,14 +244,14 @@ a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 .case__hero{padding:140px var(--pad) 0}
 .case__img{
   overflow:hidden;border:1px solid var(--hair);
-  margin-bottom:32px;background:#121213;
+  margin-bottom:32px;background:#232327;
   display:flex;justify-content:center;
 }
 .case__img img{max-width:100%;max-height:78vh;width:auto;object-fit:contain;display:block}
 .case__img--empty{aspect-ratio:16/9}
-.case__img--empty{display:flex;align-items:center;justify-content:center;background:#121213}
+.case__img--empty{display:flex;align-items:center;justify-content:center;background:#232327}
 .case__img--empty span{color:var(--gold)}
-.case__img--poster{aspect-ratio:auto;background:#121213;display:flex;justify-content:center}
+.case__img--poster{aspect-ratio:auto;background:#232327;display:flex;justify-content:center}
 .case__img--poster img{width:auto;max-width:100%;max-height:82vh;object-fit:contain}
 .case__img--wide{aspect-ratio:21/9}
 .case__img--wide img{width:100%;height:100%;object-fit:cover;max-height:none}
@@ -265,7 +265,7 @@ a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
 .lightbox__frame{position:relative;display:inline-block}
 .lightbox img{max-width:94vw;max-height:84vh;border:1px solid var(--hair);display:block}
 .lightbox__cap{margin-top:14px}
-.lightbox__close{position:absolute;top:10px;right:10px;background:rgba(12,12,13,.78);border:1px solid var(--hair);color:var(--paper);cursor:pointer;font-size:12px;letter-spacing:.08em;padding:7px 12px}
+.lightbox__close{position:absolute;top:10px;right:10px;background:rgba(28,28,31,.78);border:1px solid var(--hair);color:var(--paper);cursor:pointer;font-size:12px;letter-spacing:.08em;padding:7px 12px}
 .lightbox__close:hover{color:var(--gold);border-color:var(--gold)}
 .case__figure{margin:3em 0}
 .case__figure img{border:1px solid var(--hair)}
