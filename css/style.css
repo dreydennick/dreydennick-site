@@ -414,3 +414,10 @@ html[dir="rtl"] .row__title,html[dir="rtl"] .case__title{direction:rtl;text-alig
 .spotlight.is-on{opacity:1}
 @media (hover:none),(pointer:coarse){.spotlight{display:none}}
 @media (prefers-reduced-motion:reduce){.spotlight{display:none}}
+
+
+/* -------- spotlight depth: shadows cast away from the light (desktop only) -------- */
+.dz-t{text-shadow:var(--sx,0) var(--sy,0) var(--sb,0) rgba(0,0,0,var(--sa,0))}
+.dz-i{box-shadow:var(--sx,0) var(--sy,0) var(--sb,0) rgba(0,0,0,var(--sa,0))}
+.dz-l{filter:drop-shadow(var(--sx,0) var(--sy,0) var(--sb,0) rgba(0,0,0,var(--sa,0)))}
+.lines-open .line{overflow:visible}
