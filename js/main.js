@@ -213,151 +213,134 @@
   upd(); setInterval(upd, 1000);
 })();
 
-
-/* -------- cursor spotlight + depth shadows (desktop only) -------- */
-(function(){
-  var fine = matchMedia('(pointer:fine)').matches;
-  var noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!fine || noMotion) return;
-
-  var el = document.createElement('div');
-  el.className = 'spotlight';
-  document.body.appendChild(el);
-
-  /* targets: kind t = text, i = rectangular image, l = transparent logo */
-  var SEL = [
-    ['.hero__title, .case__title, .row__title, .vision__quote p, .contact__mail, h2:not(.case__label)', 't', 14],
-    ['.case__gallery img, .about__photo, .vision__art, .case__img', 'i', 22],
-    ['.hero__logos img, .atelier-mark', 'l', 10]
-  ];
-  /* after the line-reveal animation finishes, let title shadows escape the clipping lines */
-  setTimeout(function(){ document.documentElement.classList.add('lines-open'); }, 2600);
-  var items = [];
-  SEL.forEach(function(g){
-    document.querySelectorAll(g[0]).forEach(function(n){
-      n.classList.add('dz-' + g[1]);
-      items.push({n:n, max:g[2], cx:0, cy:0, on:false});
-    });
-  });
-
-  function measure(){
-    var sy = scrollY, sx = scrollX;
-    items.forEach(function(it){
-      var r = it.n.getBoundingClientRect();
-      it.cx = r.left + r.width/2 + sx;
-      it.cy = r.top + r.height/2 + sy;
-    });
-  }
-  measure();
-  addEventListener('resize', measure);
-  addEventListener('load', measure);
-  if (window.ResizeObserver) new ResizeObserver(measure).observe(document.body);
-
-  var R = 380, REACH = R * 1.35;
-  var tx = innerWidth/2, ty = innerHeight/2, x = tx, y = ty;
-  var I = 0, IT = 0, raf = null;
-
-  function shade(){
-    var sy = scrollY, sx = scrollX;
-    for (var k = 0; k < items.length; k++){
-      var it = items[k];
-      var dx = it.cx - sx - x, dy = it.cy - sy - y;
-      var d = Math.sqrt(dx*dx + dy*dy) || 1;
-      var t = (1 - d / REACH) * I;
-      var st = it.n.style;
-      if (t <= 0.01){
-        if (it.on){ st.setProperty('--sa','0'); it.on = false; }
-        continue;
-      }
-      var reach = Math.min(d / R, 1);
-      var off = it.max * (0.25 + 0.75 * reach);
-      st.setProperty('--sx', (dx / d * off).toFixed(1) + 'px');
-      st.setProperty('--sy', (dy / d * off).toFixed(1) + 'px');
-      st.setProperty('--sb', (4 + 16 * reach).toFixed(1) + 'px');
-      st.setProperty('--sa', (0.85 * Math.pow(t, 0.7)).toFixed(3));
-      it.on = true;
-    }
-  }
-
-  function loop(){
-    x += (tx - x) * 0.22;
-    y += (ty - y) * 0.22;
-    I += (IT - I) * 0.12;
-    el.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
-    shade();
-    if (Math.abs(tx - x) > 0.3 || Math.abs(ty - y) > 0.3 || Math.abs(IT - I) > 0.01) raf = requestAnimationFrame(loop);
-    else { I = IT; shade(); raf = null; }
-  }
-  function kick(){ if (!raf) raf = requestAnimationFrame(loop); }
-
-  addEventListener('mousemove', function(e){
-    tx = e.clientX; ty = e.clientY; IT = 1;
-    el.classList.add('is-on');
-    kick();
-  }, {passive:true});
-  addEventListener('scroll', kick, {passive:true});
-  document.documentElement.addEventListener('mouseleave', function(){
-    el.classList.remove('is-on'); IT = 0; kick();
-  });
-})();
-
-
-/* -------- mobile depth: virtual stage light above the screen, shadows shift with scroll -------- */
+/* ======== DEPTH: every text, photo and logo floats above the page and casts a shadow ======== */
 (function(){
   var fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
-  if (fine) return;
-  /* reduce-motion: shadows stay, but frozen (no scroll-driven change) */
   var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (fine && still) return;                      /* desktop + reduce-motion: no light at all */
 
+  /* ---- collect targets ---- */
+  var SKIP = '.cursor, .cursor-dot, .spotlight, .ambient, .lightbox, script, style, noscript, svg, video, .hero__title, .case__title';
+  var items = [], seen = new Set();
+  function add(n, kind, dep){
+    if (seen.has(n)) return; seen.add(n);
+    n.classList.add('dz-' + kind);
+    items.push({n:n, kind:kind, dep:dep, cx:0, cy:0, fixed:false, k:''});
+  }
+  document.querySelectorAll('.hero__title, .case__title').forEach(function(n){ add(n,'t',1.7); });
+  document.querySelectorAll('.case__gallery img, .about__photo, .vision__art, .case__img, .row__thumb').forEach(function(n){ add(n,'i',1.4); });
+  document.querySelectorAll('.hero__logos img, .atelier-mark, .top__logo img').forEach(function(n){ add(n,'l',0.8); });
+  var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: function(t){ return /\S/.test(t.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT; }
+  });
+  var t;
+  while ((t = walker.nextNode())){
+    var el = t.parentElement;
+    if (!el || el.closest(SKIP)) continue;
+    add(el, 't', 1);
+  }
+
+  /* fixed-position context (header, side mark): coordinates don't scroll */
+  var fixedCache = new Map();
+  function inFixed(n){
+    var chain = [];
+    for (var a = n; a && a !== document.body; a = a.parentElement){
+      if (fixedCache.has(a)){ var v = fixedCache.get(a); chain.forEach(function(c){ fixedCache.set(c, v); }); return v; }
+      chain.push(a);
+      if (getComputedStyle(a).position === 'fixed'){ chain.forEach(function(c){ fixedCache.set(c, true); }); return true; }
+    }
+    chain.forEach(function(c){ fixedCache.set(c, false); });
+    return false;
+  }
+  items.forEach(function(it){ it.fixed = inFixed(it.n); });
+
+  /* ---- shadow composer: near shadow + wide soft halo ---- */
+  function q(v, s){ return Math.round(v / s) * s; }
+  function compose(kind, sx, sy, sb, ss, sa){
+    if (sa <= 0.01) return 'none';
+    var x1 = q(sx,.5), y1 = q(sy,.5), b1 = q(sb,1), s1 = q(ss,1), a1 = q(sa,.02).toFixed(2);
+    var x2 = q(sx*1.9,.5), y2 = q(sy*1.9,.5), b2 = q(sb*2.2,1), a2 = q(sa*.45,.02).toFixed(2);
+    if (kind === 't') return x1+'px '+y1+'px '+b1+'px rgba(0,0,0,'+a1+'), '+x2+'px '+y2+'px '+b2+'px rgba(0,0,0,'+a2+')';
+    if (kind === 'i') return x1+'px '+y1+'px '+b1+'px '+s1+'px rgba(0,0,0,'+a1+'), '+x2+'px '+y2+'px '+b2+'px '+q(ss*1.5,1)+'px rgba(0,0,0,'+a2+')';
+    return 'drop-shadow('+x1+'px '+y1+'px '+b1+'px rgba(0,0,0,'+a1+')) drop-shadow('+x2+'px '+y2+'px '+b2+'px rgba(0,0,0,'+a2+'))';
+  }
+  function put(it, v){ if (v !== it.k){ it.k = v; it.n.style.setProperty('--sh', v); } }
+
+  setTimeout(function(){ document.documentElement.classList.add('lines-open'); }, still ? 0 : 2600);
+
+  /* ================= DESKTOP: light follows the mouse ================= */
+  if (fine){
+    var spot = document.createElement('div');
+    spot.className = 'spotlight';
+    document.body.appendChild(spot);
+
+    function measure(){
+      var sx = scrollX, sy = scrollY;
+      items.forEach(function(it){
+        var r = it.n.getBoundingClientRect();
+        it.cx = r.left + r.width/2 + (it.fixed ? 0 : sx);
+        it.cy = r.top + r.height/2 + (it.fixed ? 0 : sy);
+      });
+    }
+    measure();
+    addEventListener('resize', measure);
+    addEventListener('load', measure);
+    setTimeout(measure, 3000);
+    if (window.ResizeObserver) new ResizeObserver(measure).observe(document.body);
+
+    var R = 380, REACH = 560;
+    var tx = innerWidth/2, ty = innerHeight/2, x = tx, y = ty, I = 0, IT = 0, raf = null;
+
+    function shade(){
+      var sx = scrollX, sy = scrollY;
+      for (var k = 0; k < items.length; k++){
+        var it = items[k];
+        var dx = it.cx - (it.fixed ? 0 : sx) - x, dy = it.cy - (it.fixed ? 0 : sy) - y;
+        var d = Math.sqrt(dx*dx + dy*dy) || 1;
+        var p = (1 - d / REACH) * I;               /* proximity to the light */
+        if (p <= 0.01){ if (it.k !== 'none') put(it, 'none'); continue; }
+        var reach = Math.min(d / R, 1);
+        var off  = it.dep * (9 + 24 * reach);      /* floats well above the page */
+        var blur = it.dep * (6 + 26 * p);          /* light overhead → wider, softer shadow */
+        var sprd = it.dep * 14 * p;                /* …and bigger */
+        put(it, compose(it.kind, dx/d*off, dy/d*off, blur, sprd, 0.95 * Math.pow(p, 0.6)));
+      }
+    }
+    function loop(){
+      x += (tx - x) * 0.22; y += (ty - y) * 0.22; I += (IT - I) * 0.12;
+      spot.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
+      shade();
+      if (Math.abs(tx-x) > .3 || Math.abs(ty-y) > .3 || Math.abs(IT-I) > .01) raf = requestAnimationFrame(loop);
+      else { I = IT; shade(); raf = null; }
+    }
+    function kick(){ if (!raf) raf = requestAnimationFrame(loop); }
+    addEventListener('mousemove', function(e){ tx = e.clientX; ty = e.clientY; IT = 1; spot.classList.add('is-on'); kick(); }, {passive:true});
+    addEventListener('scroll', kick, {passive:true});
+    document.documentElement.addEventListener('mouseleave', function(){ spot.classList.remove('is-on'); IT = 0; kick(); });
+    return;
+  }
+
+  /* ================= TOUCH: stage light hangs above the screen ================= */
   var amb = document.createElement('div');
   amb.className = 'ambient';
   document.body.appendChild(amb);
-  setTimeout(function(){ document.documentElement.classList.add('lines-open'); }, still ? 0 : 2600);
-
-  var SEL = [
-    ['.hero__title, .case__title, .row__title, .vision__quote p, .contact__mail, h2:not(.case__label)', 't', 11],
-    ['.case__gallery img, .about__photo, .vision__art, .case__img', 'i', 16],
-    ['.hero__logos img, .atelier-mark', 'l', 7]
-  ];
-  var items = [];
-  SEL.forEach(function(g){
-    document.querySelectorAll(g[0]).forEach(function(n){
-      n.classList.add('dz-' + g[1]);
-      items.push({n:n, max:g[2], k:''});
-    });
-  });
-
-  function put(it, sx, sy, sb, sa){
-    var key = sx + '|' + sy + '|' + sb + '|' + sa;
-    if (key === it.k) return;
-    it.k = key;
-    var st = it.n.style;
-    st.setProperty('--sx', sx + 'px');
-    st.setProperty('--sy', sy + 'px');
-    st.setProperty('--sb', sb + 'px');
-    st.setProperty('--sa', sa);
-  }
 
   if (still){
-    items.forEach(function(it){ put(it, 0, Math.round(it.max * 0.6), 8, '0.7'); });
+    items.forEach(function(it){ put(it, compose(it.kind, 0, it.dep*9, it.dep*10, it.dep*4, 0.75)); });
     return;
   }
 
   var visible = new Set();
   var io = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      var it = e.target.__dz;
-      if (e.isIntersecting) visible.add(it); else visible.delete(it);
-    });
-    kick();
+    es.forEach(function(e){ var it = e.target.__dz; if (e.isIntersecting) visible.add(it); else visible.delete(it); });
+    kickM();
   }, {rootMargin:'25% 0px'});
   items.forEach(function(it){ it.n.__dz = it; io.observe(it.n); });
 
-  var raf = null;
-  function frame(){
-    raf = null;
-    var W = innerWidth, H = innerHeight;
-    var lx = W / 2, ly = -0.35 * H;
+  var rafM = null;
+  function frameM(){
+    rafM = null;
+    var W = innerWidth, H = innerHeight, lx = W/2, ly = -0.35 * H;
     var reads = [];
     visible.forEach(function(it){ reads.push([it, it.n.getBoundingClientRect()]); });
     for (var k = 0; k < reads.length; k++){
@@ -365,17 +348,14 @@
       var dx = r.left + r.width/2 - lx, dy = r.top + r.height/2 - ly;
       var d = Math.sqrt(dx*dx + dy*dy) || 1;
       var reach = Math.min(d / (H * 1.25), 1);
-      var off = it.max * (0.35 + 0.65 * reach);
-      put(it,
-        Math.round(dx / d * off * 2) / 2,
-        Math.round(dy / d * off * 2) / 2,
-        Math.round(4 + 10 * reach),
-        (0.8 * (1 - 0.35 * reach)).toFixed(2));
+      var p = 1 - Math.min(d / (H * 1.5), 1);
+      var off = it.dep * (5 + 13 * reach);
+      put(it, compose(it.kind, dx/d*off, dy/d*off, it.dep*(5 + 16*p), it.dep*9*p, 0.85*(0.55 + 0.45*p)));
     }
   }
-  function kick(){ if (!raf) raf = requestAnimationFrame(frame); }
-  addEventListener('scroll', kick, {passive:true});
-  addEventListener('resize', kick);
-  addEventListener('load', kick);
-  kick();
+  function kickM(){ if (!rafM) rafM = requestAnimationFrame(frameM); }
+  addEventListener('scroll', kickM, {passive:true});
+  addEventListener('resize', kickM);
+  addEventListener('load', kickM);
+  kickM();
 })();
