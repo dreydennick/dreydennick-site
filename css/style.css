@@ -396,3 +396,21 @@ html[dir="rtl"] .row__title,html[dir="rtl"] .case__title{direction:rtl;text-alig
   }
   .case__foot .contact__mail{font-size:clamp(13px, calc((100vw - 44px) / 19), 24px)}
 }
+
+
+/* -------- cursor spotlight (desktop only) -------- */
+.spotlight{
+  position:fixed;top:0;left:0;width:760px;height:760px;
+  margin:-380px 0 0 -380px;
+  pointer-events:none;z-index:60;
+  background:radial-gradient(circle closest-side,
+    rgba(235,232,226,.17) 0%,
+    rgba(235,232,226,.07) 42%,
+    rgba(235,232,226,0) 72%);
+  mix-blend-mode:screen;
+  opacity:0;transition:opacity .5s var(--ease);
+  will-change:transform;
+}
+.spotlight.is-on{opacity:1}
+@media (hover:none),(pointer:coarse){.spotlight{display:none}}
+@media (prefers-reduced-motion:reduce){.spotlight{display:none}}
