@@ -421,3 +421,13 @@ html[dir="rtl"] .row__title,html[dir="rtl"] .case__title{direction:rtl;text-alig
 .dz-i{box-shadow:var(--sx,0) var(--sy,0) var(--sb,0) rgba(0,0,0,var(--sa,0))}
 .dz-l{filter:drop-shadow(var(--sx,0) var(--sy,0) var(--sb,0) rgba(0,0,0,var(--sa,0)))}
 .lines-open .line{overflow:visible}
+
+/* -------- mobile depth: fixed stage light from above, scroll-driven shadows -------- */
+.ambient{
+  position:fixed;inset:0;pointer-events:none;z-index:60;
+  background:radial-gradient(ellipse 130% 75% at 50% -12%,
+    rgba(235,232,226,.11) 0%, rgba(235,232,226,.04) 45%, rgba(235,232,226,0) 75%);
+  mix-blend-mode:screen;
+}
+@media (hover:hover) and (pointer:fine){.ambient{display:none}}
+@media (prefers-reduced-motion:reduce){.ambient{display:none}}
