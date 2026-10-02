@@ -214,28 +214,89 @@
 })();
 
 
-/* -------- cursor spotlight (desktop only) -------- */
+/* -------- cursor spotlight + depth shadows (desktop only) -------- */
 (function(){
   var fine = matchMedia('(pointer:fine)').matches;
   var noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!fine || noMotion) return;
+
   var el = document.createElement('div');
   el.className = 'spotlight';
   document.body.appendChild(el);
-  var tx = innerWidth/2, ty = innerHeight/2, x = tx, y = ty, raf = null;
+
+  /* targets: kind t = text, i = rectangular image, l = transparent logo */
+  var SEL = [
+    ['.hero__title, .case__title, .row__title, .vision__quote p, .contact__mail, h2:not(.case__label)', 't', 14],
+    ['.case__gallery img, .about__photo, .vision__art, .case__img', 'i', 22],
+    ['.hero__logos img, .atelier-mark', 'l', 10]
+  ];
+  /* after the line-reveal animation finishes, let title shadows escape the clipping lines */
+  setTimeout(function(){ document.documentElement.classList.add('lines-open'); }, 2600);
+  var items = [];
+  SEL.forEach(function(g){
+    document.querySelectorAll(g[0]).forEach(function(n){
+      n.classList.add('dz-' + g[1]);
+      items.push({n:n, max:g[2], cx:0, cy:0, on:false});
+    });
+  });
+
+  function measure(){
+    var sy = scrollY, sx = scrollX;
+    items.forEach(function(it){
+      var r = it.n.getBoundingClientRect();
+      it.cx = r.left + r.width/2 + sx;
+      it.cy = r.top + r.height/2 + sy;
+    });
+  }
+  measure();
+  addEventListener('resize', measure);
+  addEventListener('load', measure);
+  if (window.ResizeObserver) new ResizeObserver(measure).observe(document.body);
+
+  var R = 380, REACH = R * 1.35;
+  var tx = innerWidth/2, ty = innerHeight/2, x = tx, y = ty;
+  var I = 0, IT = 0, raf = null;
+
+  function shade(){
+    var sy = scrollY, sx = scrollX;
+    for (var k = 0; k < items.length; k++){
+      var it = items[k];
+      var dx = it.cx - sx - x, dy = it.cy - sy - y;
+      var d = Math.sqrt(dx*dx + dy*dy) || 1;
+      var t = (1 - d / REACH) * I;
+      var st = it.n.style;
+      if (t <= 0.01){
+        if (it.on){ st.setProperty('--sa','0'); it.on = false; }
+        continue;
+      }
+      var reach = Math.min(d / R, 1);
+      var off = it.max * (0.25 + 0.75 * reach);
+      st.setProperty('--sx', (dx / d * off).toFixed(1) + 'px');
+      st.setProperty('--sy', (dy / d * off).toFixed(1) + 'px');
+      st.setProperty('--sb', (4 + 16 * reach).toFixed(1) + 'px');
+      st.setProperty('--sa', (0.85 * Math.pow(t, 0.7)).toFixed(3));
+      it.on = true;
+    }
+  }
+
   function loop(){
     x += (tx - x) * 0.22;
     y += (ty - y) * 0.22;
+    I += (IT - I) * 0.12;
     el.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
-    if (Math.abs(tx - x) > 0.3 || Math.abs(ty - y) > 0.3) raf = requestAnimationFrame(loop);
-    else raf = null;
+    shade();
+    if (Math.abs(tx - x) > 0.3 || Math.abs(ty - y) > 0.3 || Math.abs(IT - I) > 0.01) raf = requestAnimationFrame(loop);
+    else { I = IT; shade(); raf = null; }
   }
+  function kick(){ if (!raf) raf = requestAnimationFrame(loop); }
+
   addEventListener('mousemove', function(e){
-    tx = e.clientX; ty = e.clientY;
+    tx = e.clientX; ty = e.clientY; IT = 1;
     el.classList.add('is-on');
-    if (!raf) raf = requestAnimationFrame(loop);
+    kick();
   }, {passive:true});
+  addEventListener('scroll', kick, {passive:true});
   document.documentElement.addEventListener('mouseleave', function(){
-    el.classList.remove('is-on');
+    el.classList.remove('is-on'); IT = 0; kick();
   });
 })();
