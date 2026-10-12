@@ -158,7 +158,7 @@ finally:
     sys.stdout = _stdout
 EN = {c['slug']: c for c in gen2.CASES}
 
-CAP_HE = {'On stage':'על הבמה','Finale bow':'קידה בפינאלה','In the hall':'באולם','Promo series':'סדרת פרומו',
+CAP_HE = {'Frau Marlene Show — Tmuna Theatre':'פראו מרלן שואו — תיאטרון תמונע','On stage':'על הבמה','Finale bow':'קידה בפינאלה','In the hall':'באולם','Promo series':'סדרת פרומו',
  'Production still':'סטיל מההפקה','Jaffa':'יפו','In the field':'בשדה','The bar':'הבר','Julie & Jean':"ז'ולי וז'אן",
  'Home':'בית','The road':'הדרך','Fire':'אש','R.U.N. — flight':'R.U.N. — תעופה','Madonna of the road':'מדונת הדרך',
  'The dance':'הריקוד','Ensemble':'אנסמבל','Handwritten projection':'הקרנה בכתב יד','Fresco dissolve':'מעבר פרסקו',
@@ -268,7 +268,7 @@ for i, c in enumerate(HE):
     if en.get('videos'):
         body += '\n' + gen2.videos_html(en['videos'], en.get('videosLabelHe', 'סרטים'), prefix='../../assets')
     if en.get('gallery2'):
-        body += '\n' + gal_html(en['gallery2'], 'על הבמה — אקספו תל אביב')
+        body += '\n' + gal_html(en['gallery2'], en.get('gallery2LabelHe', 'על הבמה — אקספו תל אביב'))
     body += '\n' + gal_html(en.get('gallery', []), 'קונספט — עולם המסך' if c['slug']=='chiquititas' else en.get('galleryLabelHe', 'גלריה'))
     if en.get('extra'):
         extra = en['extra'].replace('../assets','../../assets')
