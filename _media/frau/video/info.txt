@@ -1,0 +1,9 @@
+codec_name=h264
+width=1920
+height=1080
+r_frame_rate=25/1
+codec_name=aac
+r_frame_rate=0/0
+duration=61.200000
+size=123353584
+-rw-r--r-- 1 runner runner 16813509 Oct 12 11:50 assets/video/frau-film.mp4
