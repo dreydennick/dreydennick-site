@@ -367,3 +367,11 @@
   addEventListener('load', kickM);
   kickM();
 })();
+
+/* -------- one film at a time: starting a video pauses the others -------- */
+(function(){
+  var vids = Array.prototype.slice.call(document.querySelectorAll('video:not(.hero__video)'));
+  vids.forEach(function(v){
+    v.addEventListener('play', function(){ vids.forEach(function(o){ if (o !== v && !o.paused) o.pause(); }); });
+  });
+})();

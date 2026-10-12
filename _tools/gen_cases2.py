@@ -31,7 +31,13 @@ CASES = [
       local='../assets/img/bfl-aerial-hero.jpg', gallery=[('../assets/img/gallery/bfl-3.jpg', 'Aerial — three screens over Live Park'), ('../assets/img/gallery/bfl-4.jpg', 'Aerial — golden plates of the timeline'), ('../assets/img/gallery/bfl-5.jpg', 'The circuit gate — night'), ('../assets/img/gallery/bfl-6.jpg', 'The gate at sunset'), ('../assets/img/gallery/bfl-7.jpg', 'VR gallery — 18 Years'), ('../assets/img/bfl18-tree.jpg', 'Key visual — the tree of brotherhood')],
       extra='<figure class="case__figure case__figure--video"><video controls preload="none" playsinline poster="../assets/img/bfl18-reel-poster.jpg" src="../assets/video/bfl18-reel.mp4"></video></figure>'),
  dict(slug='imagine-festigal', head='IMAGINE FESTIGAL', year='2025', venue='Solan Productions · Israel', cat='Stage video design',
-      hero='db1c86_675e79f7617d462e830d3d0164a938fd~mv2.jpg', gallery=[]),
+      hero='db1c86_675e79f7617d462e830d3d0164a938fd~mv2.jpg',
+      videosLabel='Imagine Festigal Merch 2025 — Campaign Films', videosLabelHe='Imagine Festigal Merch 2025 — סרטי הקמפיין',
+      videos=[('../assets/video/fg-hoodies.mp4','../assets/img/fg-hoodies-poster.jpg','Hoodies'),
+              ('../assets/video/fg-beauty.mp4','../assets/img/fg-beauty-poster.jpg','Beauty'),
+              ('../assets/video/fg-campus.mp4','../assets/img/fg-campus-poster.jpg','Campus')],
+      galleryLabel='Campaign — Stills', galleryLabelHe='הקמפיין — סטילס',
+      gallery=[('../assets/img/gallery/fgm-01.jpg', 'Hoodies — pink hoodie'), ('../assets/img/gallery/fgm-02.jpg', 'Campus — the Imagine boxes'), ('../assets/img/gallery/fgm-03.jpg', 'Beauty — the heart mirror'), ('../assets/img/gallery/fgm-04.jpg', 'Hoodies — popcorn moment'), ('../assets/img/gallery/fgm-05.jpg', 'Campus — on set'), ('../assets/img/gallery/fgm-06.jpg', 'Beauty — glitter and foam'), ('../assets/img/gallery/fgm-07.jpg', 'Hoodies — couple in hoodies'), ('../assets/img/gallery/fgm-08.jpg', 'Campus — headphones'), ('../assets/img/gallery/fgm-09.jpg', 'Beauty — face masks'), ('../assets/img/gallery/fgm-10.jpg', 'Hoodies — game night'), ('../assets/img/gallery/fgm-11.jpg', 'Campus — bottles'), ('../assets/img/gallery/fgm-12.jpg', 'Beauty — the beauty crew'), ('../assets/img/gallery/fgm-13.jpg', 'Hoodie — navy'), ('../assets/img/gallery/fgm-14.jpg', 'Beauty set — Pink'), ('../assets/img/gallery/fgm-15.jpg', 'Campus kit — navy')]),
  dict(slug='frau-marlene-show', head='FRAU MARLENE SHOW', year='2025', venue='Tmuna Theatre, Tel Aviv, Israel', cat='Theatre video design',
       hero='db1c86_cb661796501d49cf9d5e0b95f19b4b8a~mv2.jpg',
       gallery=[('../assets/img/gallery/frau-3.jpg', 'Frau Marlene — promo series'), ('../assets/img/gallery/frau-5.jpg', ''), ('../assets/img/gallery/frau-6.jpg', '')]),
@@ -111,6 +117,15 @@ def body_html(md):
         if txt: out.append(f'<p>{txt}</p>')
     if in_ul: out.append('</ul>')
     return '\n'.join(out)
+
+
+def videos_html(items, label, prefix='../assets'):
+    if not items: return ''
+    figs = ''.join(
+        f'<figure><video src="{v.replace("../assets", prefix)}" poster="{p.replace("../assets", prefix)}" '
+        f'controls playsinline preload="none" aria-label="{html.escape(t)}"></video></figure>'
+        for v, p, t in items)
+    return f'<h2 class="case__label mono">{html.escape(label)}</h2>\n<div class="case__videos">{figs}</div>'
 
 def gallery_html(items, label='Gallery'):
     if not items: return ''
@@ -222,6 +237,8 @@ TPL = '''<!DOCTYPE html>
 n = len(CASES)
 for i, c in enumerate(CASES):
     body = body_html(find_body(c['head']))
+    if c.get('videos'):
+        body += '\n' + videos_html(c['videos'], c.get('videosLabel', 'Films'))
     if c.get('gallery2'):
         body += '\n' + gallery_html(c['gallery2'], c.get('gallery2Label', 'Gallery'))
     body += '\n' + gallery_html(c.get('gallery', []), c.get('galleryLabel', 'Gallery'))

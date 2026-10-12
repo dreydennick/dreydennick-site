@@ -438,3 +438,8 @@ html[dir="rtl"] .row__title,html[dir="rtl"] .case__title{direction:rtl;text-alig
 html.has-cursor :fullscreen, html.has-cursor :fullscreen *{cursor:auto}
 html.has-cursor :-webkit-full-screen, html.has-cursor :-webkit-full-screen *{cursor:auto}
 html.has-cursor video:-webkit-full-screen{cursor:auto}
+
+/* -------- campaign films: horizontal videos in a row -------- */
+.case__videos{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:1.6em 0 3em}
+.case__videos figure{margin:0}
+.case__videos video{width:100%;aspect-ratio:16/9;display:block;background:#000;border:1px solid var(--hair);object-fit:cover}

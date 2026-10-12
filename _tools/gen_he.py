@@ -265,9 +265,11 @@ n = len(HE)
 for i, c in enumerate(HE):
     en = EN[c['slug']]
     body = c['body']
+    if en.get('videos'):
+        body += '\n' + gen2.videos_html(en['videos'], en.get('videosLabelHe', 'סרטים'), prefix='../../assets')
     if en.get('gallery2'):
         body += '\n' + gal_html(en['gallery2'], 'על הבמה — אקספו תל אביב')
-    body += '\n' + gal_html(en.get('gallery', []), 'קונספט — עולם המסך' if c['slug']=='chiquititas' else 'גלריה')
+    body += '\n' + gal_html(en.get('gallery', []), 'קונספט — עולם המסך' if c['slug']=='chiquititas' else en.get('galleryLabelHe', 'גלריה'))
     if en.get('extra'):
         extra = en['extra'].replace('../assets','../../assets')
         extra = extra.replace('Event reel · June 16, 2026', CAP_HE['Event reel · June 16, 2026'])
