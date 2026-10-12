@@ -1,0 +1,43 @@
+name: media-import
+on:
+  push:
+    branches: [media-import]
+    paths: ['.github/workflows/media-import.yml']
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tools
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+          pip install -q gdown
+      - name: Download masters from Google Drive (public link)
+        run: |
+          mkdir -p /tmp/m
+          gdown -q 1pRcfoL1AUVhU8e2QtLRh_M7fqeaH2m3Z -O /tmp/m/hoodies.mp4
+          gdown -q 1hDM2xulnEY38O2eWL0QU5Km2ARwkWxXM -O /tmp/m/beauty.mp4
+          gdown -q 1LekCAKEUkKk2JYCQAGqn7JbdwJf59fHb -O /tmp/m/campus.mp4
+          ls -la /tmp/m
+      - name: Transcode for web + frames
+        run: |
+          mkdir -p assets/video _media/frames _media/thumbs
+          : > _media/info.txt
+          for n in hoodies beauty campus; do
+            ffprobe -v error -show_entries stream=codec_name,width,height,r_frame_rate:format=duration,size -of default=nw=1 /tmp/m/$n.mp4 | sed "s/^/$n: /" >> _media/info.txt
+            ffmpeg -y -v error -i /tmp/m/$n.mp4 -vf "scale=1280:-2" -c:v libx264 -profile:v high -pix_fmt yuv420p -crf 26 -preset slow -c:a aac -b:a 128k -movflags +faststart assets/video/fg-$n.mp4
+            mkdir -p _media/frames/$n _media/thumbs/$n
+            ffmpeg -y -v error -i /tmp/m/$n.mp4 -vf "fps=1/1.5,scale=1600:-2" -q:v 3 _media/frames/$n/%03d.jpg
+            ffmpeg -y -v error -i /tmp/m/$n.mp4 -vf "fps=1/1.5,scale=320:-2" -q:v 5 _media/thumbs/$n/%03d.jpg
+          done
+          ls -la assets/video >> _media/info.txt
+      - name: Commit results to this branch
+        run: |
+          git config user.name "media-import"
+          git config user.email "actions@users.noreply.github.com"
+          git add assets/video/fg-*.mp4 _media
+          git commit -m "media-import: web encodes + frames for Imagine Festigal Merch 2025"
+          git push origin HEAD:media-import
