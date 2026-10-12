@@ -39,7 +39,7 @@ CASES = [
       galleryLabel='Campaign — Stills', galleryLabelHe='הקמפיין — סטילס',
       gallery=[('../assets/img/gallery/fgm-01.jpg', 'Hoodies — pink hoodie'), ('../assets/img/gallery/fgm-02.jpg', 'Campus — the Imagine boxes'), ('../assets/img/gallery/fgm-03.jpg', 'Beauty — the heart mirror'), ('../assets/img/gallery/fgm-04.jpg', 'Hoodies — popcorn moment'), ('../assets/img/gallery/fgm-05.jpg', 'Campus — on set'), ('../assets/img/gallery/fgm-06.jpg', 'Beauty — glitter and foam'), ('../assets/img/gallery/fgm-07.jpg', 'Hoodies — couple in hoodies'), ('../assets/img/gallery/fgm-08.jpg', 'Campus — headphones'), ('../assets/img/gallery/fgm-09.jpg', 'Beauty — face masks'), ('../assets/img/gallery/fgm-10.jpg', 'Hoodies — game night'), ('../assets/img/gallery/fgm-11.jpg', 'Campus — bottles'), ('../assets/img/gallery/fgm-12.jpg', 'Beauty — the beauty crew')]),
  dict(slug='frau-marlene-show', head='FRAU MARLENE SHOW', year='2025', venue='Tmuna Theatre, Tel Aviv, Israel', cat='Theatre video design',
-      local='../assets/img/frau-poster-v2.jpg', mode='poster',
+      local='../assets/img/frau-poster-v3.jpg', mode='poster',
       videosLabel='Show Trailer', videosLabelHe='טריילר המופע',
       videos=[('../assets/video/frau-film.mp4','../assets/img/frau-film-poster.jpg','Frau Marlene Show — trailer')],
       gallery2Label='On Stage — Tmuna Theatre', gallery2LabelHe='על הבמה — תיאטרון תמונע',
