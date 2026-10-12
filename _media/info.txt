@@ -1,0 +1,34 @@
+hoodies: codec_name=h264
+hoodies: width=1920
+hoodies: height=1080
+hoodies: r_frame_rate=25/1
+hoodies: codec_name=aac
+hoodies: r_frame_rate=0/0
+hoodies: duration=29.840000
+hoodies: size=298421516
+beauty: codec_name=h264
+beauty: width=1920
+beauty: height=1080
+beauty: r_frame_rate=25/1
+beauty: codec_name=aac
+beauty: r_frame_rate=0/0
+beauty: duration=29.400000
+beauty: size=293695397
+campus: codec_name=h264
+campus: width=1920
+campus: height=1080
+campus: r_frame_rate=25/1
+campus: codec_name=aac
+campus: r_frame_rate=0/0
+campus: duration=27.920000
+campus: size=279073679
+total 54796
+drwxr-xr-x 2 runner runner     4096 Oct 12 11:19 .
+drwxr-xr-x 5 runner runner     4096 Oct 12 11:17 ..
+-rw-r--r-- 1 runner runner 15322249 Oct 12 11:17 bfl18-reel.mp4
+-rw-r--r-- 1 runner runner  9069362 Oct 12 11:17 chq-reel.mp4
+-rw-r--r-- 1 runner runner  5480240 Oct 12 11:18 fg-beauty.mp4
+-rw-r--r-- 1 runner runner  7362458 Oct 12 11:19 fg-campus.mp4
+-rw-r--r-- 1 runner runner  5989682 Oct 12 11:18 fg-hoodies.mp4
+-rw-r--r-- 1 runner runner 11127896 Oct 12 11:17 hero-loop-v2.mp4
+-rw-r--r-- 1 runner runner  1737602 Oct 12 11:17 hero-loop.mp4
