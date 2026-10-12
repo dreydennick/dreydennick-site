@@ -140,6 +140,8 @@ _Статус: премьера 27.09.2026; галерея и Impact ждут м
 - Created an original 180° volumetric visual score — immersive panoramic backgrounds and interactive clips designed to wrap around performers.
 - Developed a kinetic video environment for the children's TV auditions: during filming, the studio transformed into virtual worlds, placing each child performer inside a unique multimedia landscape.
 
+**Imagine Festigal Merch 2025 — Campaign.** Dreyden Visual Atelier served as the production company and creative lead behind the unique advertising campaign for the Imagine Festigal Merch 2025 collection — concept, production and post-production of a series of campaign films (Hoodies, Beauty and Campus) starring the production's stars.
+
 **Impact.** Dreyden's video score gave the television version of Festigal its distinctive look, elevating the children's auditions into cinematic music-video experiences. His multimedia design was praised for setting a new standard in Festigal's visual language, turning the production into a total multimedia experience.
 
 ### FRAU MARLENE SHOW (Tmuna Theatre, Tel Aviv, 2025)
