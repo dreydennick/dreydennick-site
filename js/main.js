@@ -228,7 +228,7 @@
     items.push({n:n, kind:kind, dep:dep, cx:0, cy:0, fixed:false, k:''});
   }
   document.querySelectorAll('.hero__title, .case__title').forEach(function(n){ add(n,'t',1.7); });
-  document.querySelectorAll('.case__gallery img, .about__photo, .vision__art, .case__img, .row__thumb').forEach(function(n){ add(n,'i',1.4); });
+  document.querySelectorAll('.case__gallery img, .about__photo, .vision__art, .case__img, .row__thumb').forEach(function(n){ if (!n.querySelector('video')) add(n,'i',1.4); });
   document.querySelectorAll('.hero__logos img, .atelier-mark, .top__logo img').forEach(function(n){ add(n,'l',0.8); });
   var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
     acceptNode: function(t){ return /\S/.test(t.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT; }
@@ -324,6 +324,14 @@
   var amb = document.createElement('div');
   amb.className = 'ambient';
   document.body.appendChild(amb);
+
+  /* while any video plays: light off, nothing composited over the player */
+  document.querySelectorAll('video:not(.hero__video)').forEach(function(v){
+    v.addEventListener('play', function(){ document.documentElement.classList.add('vid-playing'); });
+    ['pause','ended','webkitendfullscreen'].forEach(function(ev){
+      v.addEventListener(ev, function(){ document.documentElement.classList.remove('vid-playing'); });
+    });
+  });
 
   if (still){
     items.forEach(function(it){ put(it, compose(it.kind, 0, it.dep*9, it.dep*10, it.dep*4, 0.75)); });
